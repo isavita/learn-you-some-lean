@@ -1,0 +1,10 @@
+name = "FunctionsAndDefinitions"
+version = "0.1.0"
+defaultTargets = ["functionsanddefinitions"]
+
+[[lean_lib]]
+name = "FunctionsAndDefinitions"
+
+[[lean_exe]]
+name = "functionsanddefinitions"
+root = "Main"
