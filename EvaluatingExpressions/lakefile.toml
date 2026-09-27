@@ -1,0 +1,10 @@
+name = "EvaluatingExpressions"
+version = "0.1.0"
+defaultTargets = ["evaluatingexpressions"]
+
+[[lean_lib]]
+name = "EvaluatingExpressions"
+
+[[lean_exe]]
+name = "evaluatingexpressions"
+root = "Main"
