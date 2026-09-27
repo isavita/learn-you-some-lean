@@ -1,0 +1,10 @@
+name = "Structures"
+version = "0.1.0"
+defaultTargets = ["structures"]
+
+[[lean_lib]]
+name = "Structures"
+
+[[lean_exe]]
+name = "structures"
+root = "Main"

@@ -27,3 +27,5 @@ def thirtyEight : NaturalNumber := (38 : Nat)
 abbrev N : Type := Nat
 
 def fortyTwo : N := 42
+
+#check fortyTwo
