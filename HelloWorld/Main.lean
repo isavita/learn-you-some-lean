@@ -114,3 +114,119 @@ def Point.modifyBoth (f : Float -> Float) (p : Point) : Point :=
 #eval Point.modifyBoth Float.sqrt { x := 355/113, y := 4 }
 #eval { x := 355/113, y := 4 : Point }.modifyBoth Float.sqrt
 #eval ({ x := 355/113, y := 4 } : Point).modifyBoth Float.sqrt
+
+#check Bool
+
+def normSq (p : Point) : Float :=
+  match p with
+  | .point x y  => x * x + y * y
+
+#eval normSq { x := 355/113, y := 4 }
+
+
+inductive Shape where
+  | circle (r : Float)
+  | rectangle (w : Float) (h : Float)
+
+def area : Shape -> Float
+  | .circle r => 3.14 * r * r
+  | .rectangle w h => w * h
+
+-- Recursive DataTypes
+inductive MyNat where
+  | zero : MyNat
+  | succ : MyNat -> MyNat
+
+def one : MyNat := .succ .zero
+def two : MyNat := .succ one
+
+inductive MyList (a : Type) where
+  | nil : MyList a
+  | cons : a -> MyList a -> MyList a
+
+#check MyNat.succ (MyNat.succ (MyNat.succ (MyNat.succ MyNat.zero))) -- 4
+
+def isZero (n : MyNat) : Bool :=
+  match n with
+  | MyNat.zero => true
+  | MyNat.succ _ => false
+
+#eval isZero (MyNat.succ MyNat.zero)
+#eval isZero MyNat.zero
+
+#eval Nat.pred 5
+#eval Nat.succ 5
+
+#eval Nat.pred 0
+
+def pred (n : MyNat) : MyNat :=
+  match n with
+  | MyNat.zero => MyNat.zero
+  | MyNat.succ k => k
+
+#eval pred (pred (pred (MyNat.succ (MyNat.succ MyNat.zero))))
+
+def depth (p : Point3D) : Float := p.z
+  -- match p with
+  -- | {x := _, y := _, z := z} => z
+
+#eval depth { x := 3, y := 4, z := -2 }
+
+def even (n : MyNat) : Bool :=
+  match n with
+  | MyNat.zero => false
+  | MyNat.succ MyNat.zero => false
+  | MyNat.succ k => not (even k)
+
+#eval even two
+#eval even one
+#eval even MyNat.zero
+
+
+def plus (n : MyNat) (k : MyNat) : MyNat :=
+  match n with
+  | MyNat.zero => k
+  | MyNat.succ n' => plus n' (MyNat.succ k)
+
+#eval plus one two
+#eval plus MyNat.zero one
+#eval plus one MyNat.zero
+#eval plus MyNat.zero MyNat.zero
+
+def times (n : MyNat) (k : MyNat) : MyNat :=
+  match k with
+  | MyNat.zero => MyNat.zero
+  | MyNat.succ MyNat.zero => n
+  | MyNat.succ k' => plus n (times n k')
+
+#eval times two two
+#eval times two MyNat.zero
+#eval times MyNat.zero two
+
+def sub (n : MyNat) (k : MyNat) : MyNat :=
+  match k with
+  | MyNat.zero => n
+  | MyNat.succ k' =>
+    match n with
+    | MyNat.zero => MyNat.zero
+    | MyNat.succ n' => sub n' k'
+
+#eval sub two two
+#eval sub two one
+#eval sub two MyNat.zero
+#eval sub one two
+
+def minus (n : MyNat) (k : MyNat) : MyNat :=
+  match k with
+  | MyNat.zero => n
+  | MyNat.succ k' => pred (minus n k')
+
+#eval minus two two
+#eval minus two one
+#eval minus two MyNat.zero
+#eval minus one two
+
+def div (n : Nat) (k : Nat) : Nat :=
+  if n < k then
+    Nat.zero
+  else Nat.succ (div (n - k) k)
