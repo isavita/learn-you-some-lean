@@ -1,0 +1,10 @@
+name = "Polymorphism"
+version = "0.1.0"
+defaultTargets = ["polymorphism"]
+
+[[lean_lib]]
+name = "Polymorphism"
+
+[[lean_exe]]
+name = "polymorphism"
+root = "Main"
