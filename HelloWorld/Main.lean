@@ -226,7 +226,148 @@ def minus (n : MyNat) (k : MyNat) : MyNat :=
 #eval minus two MyNat.zero
 #eval minus one two
 
-def div (n : Nat) (k : Nat) : Nat :=
-  if n < k then
-    Nat.zero
-  else Nat.succ (div (n - k) k)
+structure PPoint (α : Type) where
+  x : α
+  y : α
+
+def natOrigin : PPoint Nat :=
+  { x := Nat.zero, y := Nat.zero }
+
+def replaceX (α : Type) (p : PPoint α) (newX : α) : (PPoint α) :=
+  { p with x := newX }
+
+def start : PPoint Float := { x := 5.6, y := -11 }
+
+#eval replaceX Float start 3.14
+
+#check (replaceX)
+#check replaceX Nat
+#check replaceX Nat natOrigin
+#check replaceX Nat natOrigin 8
+
+inductive Sign where
+  | pos
+  | neg
+
+def posOrNegThree (s : Sign) : match s with | Sign.pos => Nat | Sign.neg => Int :=
+  match s with
+  | Sign.pos => (3 : Nat)
+  | Sign.neg => (-3 : Int)
+
+#eval posOrNegThree Sign.pos
+#eval posOrNegThree Sign.neg
+
+def primesUnder10 := [2, 3, 5, 7]
+def explicitPrimesUnder10 : List Nat :=
+  List.cons 2 (List.cons 3 (List.cons 5 (List.cons 7 List.nil)))
+
+#eval primesUnder10
+#eval explicitPrimesUnder10
+
+def length (α : Type) (xs : List α) : Nat :=
+  match xs with
+  | List.nil => Nat.zero
+  | List.cons _ tl => Nat.succ (length α tl)
+
+def llength {α : Type} (xs : List α) : Nat :=
+  match xs with
+  | [] => 0
+  | _ :: tl => Nat.succ (llength tl)
+
+#eval length String ["A", "B", "C"]
+#eval llength ["A", "B", "C"]
+#eval llength primesUnder10
+
+#check List.length (α := Float)
+
+inductive Opt (α : Type) : Type where
+  | none : Opt α
+  | some (val : α) : Opt α
+
+#check (Opt Int)
+
+#eval List.head? [1]
+
+def List.h? {α : Type} (xs : List α) : Option α :=
+  match xs with
+  | [] => none
+  | y :: _ => some y
+
+
+#eval List.h? (α := Int) []
+#eval List.head! [1]
+#eval List.headD (α := Int) [] 42
+
+#eval [111].head?
+#eval [].head? (α := Int)
+#eval ([] : List Int).head?
+#eval ([] : List Nat)
+
+def fives : String × Nat := { fst := "five", snd := 5 }
+
+#eval fives.fst
+#eval fives.snd
+
+
+def seconds : String × Nat := ("two", 2)
+
+#eval seconds.fst
+
+def sevens : String × Int × Nat := ("VII", 7, 4 + 3)
+def ssevens : String × (Int × Nat) := ("VII", (7, 4 + 3))
+
+#eval sevens == ssevens
+
+def petName : Type := String ⊕ String
+
+def animals : List petName :=
+  [Sum.inl "Spot", Sum.inr "Tiger", Sum.inl "Fifi",
+  Sum.inl "Rex", Sum.inr "Floof"]
+
+def howManyDogs (pets : List petName) : Nat :=
+  match pets with
+  | List.nil => Nat.zero
+  | List.cons (Sum.inl _) tl => Nat.succ (howManyDogs tl)
+  | List.cons (Sum.inr _) tl => howManyDogs tl
+
+def howManyCats (pets : List petName) : Nat :=
+  match pets with
+  | [] => 0
+  | Sum.inr _ :: tl => 1 + howManyCats tl
+  | Sum.inl _ :: tl => howManyCats tl
+
+#eval howManyDogs animals
+#eval howManyCats animals
+
+#check Unit
+
+#check Empty
+
+def sameLength (xs : List α) (ys : List β) : Bool :=
+  match xs with
+  | [] =>
+    match ys with
+    | [] => true
+    | _ :: _ => false
+  | _ :: xs' =>
+    match ys with
+    | _ :: ys' => sameLength xs' ys'
+    | [] => false
+
+#eval sameLength animals primesUnder10
+
+inductive WoodSplittingTools where
+  | axe
+  | maul
+  | froe
+deriving Repr
+
+#eval WoodSplittingTools.axe
+
+def allTools : List WoodSplittingTools := [
+  WoodSplittingTools.axe,
+  WoodSplittingTools.maul,
+  WoodSplittingTools.froe
+]
+
+#eval allTools
