@@ -371,3 +371,66 @@ def allTools : List WoodSplittingTools := [
 ]
 
 #eval allTools
+
+#eval "Hello, " ++ "world!"
+#eval String.push "Hello" '!'
+#eval "Hello".push '!'
+
+#eval (("small tortoiseshell".drop 6).dropEnd 5).copy
+
+#eval String.Slice.isEmpty ""
+#check "small"
+
+#eval "red admiralll".dropEndWhile 'l'
+#eval "the the butterfly".dropWhile "the "
+#eval ("a gray grayling".drop 2).dropWhile "gray "
+#eval ("red admiral".dropEndWhile Char.isAlpha).copy
+#eval ("red admiral".dropEndWhile Char.isAlpha).copy ++ "!"
+
+
+def reverse : List α -> List α
+  | [] => []
+  | a :: tl => (reverse tl) ++ [a]
+
+def reverseEff {α : Type} (xs : List α) : List α :=
+  let rec rev (xs ys : List α) : List α :=
+    match xs with
+      | [] => ys
+      | a :: tl => rev tl (a :: ys)
+  rev xs []
+
+
+#eval reverse [1, 2, 3, 4]
+#eval reverseEff [1, 2, 3, 4]
+
+def unzip : List (α × β) -> (List α) × (List β)
+  | [] => ([], [])
+  | (x, y) :: xys =>
+    let (xs, ys) := unzip xys
+    (x :: xs, y :: ys)
+
+#eval unzip [(1, 2), (3, 4), (5, 6)]
+
+#check fun x => 2 * x
+#check fun (x : Float) => 2 * x
+
+#check fun
+  | 0 => none
+  | n + 1 => some n
+
+#check (. + 1)
+
+#eval (. * .) 5 4
+
+def WhatEver.double (x : Nat) : Nat := 2 * x
+
+namespace WhatEver
+def triple (x : Nat) : Nat := 3 * x
+end WhatEver
+
+#eval WhatEver.double 3
+#eval WhatEver.triple 3
+
+#eval (⟨1, 2, 3⟩ : Point3D)
+
+#eval s!"3 * 5 = {WhatEver.triple 5}"
