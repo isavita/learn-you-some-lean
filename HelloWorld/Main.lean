@@ -434,3 +434,30 @@ end WhatEver
 #eval (⟨1, 2, 3⟩ : Point3D)
 
 #eval s!"3 * 5 = {WhatEver.triple 5}"
+
+def threeTimes (action : IO Unit) : IO Unit := do
+  action
+  action
+  action
+
+#eval threeTimes (IO.println "Say 3!")
+
+def nTimes (action : IO Unit) : Nat -> IO Unit
+  | Nat.zero => pure ()
+  | Nat.succ n => do
+    action
+    nTimes action n
+
+#eval nTimes (IO.println "Say!") 10
+
+def countdown : Nat -> List (IO Unit)
+  | Nat.zero => [IO.print "Blast off!"]
+  | Nat.succ n' => IO.print s!"{n' + 1}\n" :: countdown n'
+
+def runActions :  List (IO Unit) -> IO Unit
+  | [] => pure ()
+  | action :: actions => do
+    action
+    runActions actions
+
+#eval runActions (countdown 10)
