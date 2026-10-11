@@ -33,9 +33,14 @@ def process (exitCode : UInt32) (args : List String) : IO UInt32 := do
           dump stream
           process exitCode rest
 
+def help : IO UInt32 := do
+  IO.println "usage: feline [-] [file ...]"
+  pure 0
+
 def main (args : List String) : IO UInt32 :=
   match args with
   | [] => process 0 ["-"]
+  | "--help" :: _ => help
   | _ => process 0 args
 
 -- TESTS
