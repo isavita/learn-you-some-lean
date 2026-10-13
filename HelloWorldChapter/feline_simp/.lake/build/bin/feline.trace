@@ -1,0 +1,20 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs": "78d84fe89e42e456",
+ "log":
+ [{"message":
+   ".> MACOSX_DEPLOYMENT_TARGET=99.0 /Users/isavita/.elan/toolchains/leanprover--lean4---v4.34.1/bin/clang -o /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/bin/feline @/Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/bin/feline.rsp",
+   "level": "trace"}],
+ "inputs":
+ [["Main:linkInfo",
+   [["Module.moreLinkObjs",
+     [["/Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/ir/Main.c.o.export",
+       "f54e3af53b0a5dcd"]]],
+    ["Module.moreLinkLibs", "00000000000006bb"],
+    ["Module.moreLinkArgs: #[]", "00000000000006bb"]]],
+  ["LeanExe.exeOnlyLinkArgs: #[]", "00000000000006bb"],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["arm64-apple-darwin24.6.0", "77c16133d139df5a"],
+  ["MACOSX_DEPLOYMENT_TARGET: 99.0", "841efb403ba0ed2d"]],
+ "depHash": "9e556b0cb0bc30d8"}

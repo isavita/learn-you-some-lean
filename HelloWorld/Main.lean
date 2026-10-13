@@ -461,3 +461,88 @@ def runActions :  List (IO Unit) -> IO Unit
     runActions actions
 
 #eval runActions (countdown 10)
+
+def getNumA : IO Nat := do
+  (<- IO.getStdout).putStrLn "A"
+  pure 5
+
+def getNumB : IO Nat := do
+  (<- IO.getStdout).putStrLn "B"
+  pure 7
+
+#eval getNumA
+#eval getNumB
+
+def testNumAB : IO Unit := do
+  let x ← getNumA
+  let y ← getNumB
+  let a : Nat := if x == 5 then 0 else y
+  (← IO.getStdout).putStrLn s!"The answer is {a}"
+
+#eval testNumAB
+
+def onlyWhiteSpaces : IO Unit := do
+  let stdin <- IO.getStdin
+  let stdout <- IO.getStdout
+
+  stdout.putStrLn "How would you like to be addressed?"
+  let name := (<- stdin.getLine).trimAscii
+  stdout.putStrLn s!"Hello, {name}!"
+
+#eval onlyWhiteSpaces
+
+def asExplicitAsPosible : IO Unit := do {
+  let stdin <- IO.getStdin;
+  let stdout <- IO.getStdout;
+
+  stdout.putStrLn "How would you like to be addressed?";
+  let name := (<- stdin.getLine).trimAscii;
+  stdout.putStrLn s!"Hello, {name}!";
+}
+
+#eval asExplicitAsPosible
+
+def withSemicolon : IO Unit := do
+  let stdin <- IO.getStdin; let stdout <- IO.getStdout
+
+  stdout.putStrLn "How would you like to be addressed?"
+  let name := (<- stdin.getLine).trimAscii
+  stdout.putStrLn s!"Hello, {name}!"
+
+#eval withSemicolon
+
+-- reflexive
+-- TACTICS
+-- decide
+-- simp - simplify
+-- grind
+
+theorem onePlusOneIsTwo : 1 + 1 = 2 := by
+  decide
+
+#check onePlusOneIsTwo
+
+theorem addAndAppend : 1 + 1 = 2 ∧ "Str".append "ing" = "String" := by
+  decide
+
+theorem addOrAppend : 4 + 1 = 5 ∨ "Str".append "in" = "String" := by
+  decide
+
+theorem notTwoEqualFour : ¬(1 + 1 = 4) := by
+  decide
+
+theorem falseOrTrue : False ∨ True := by decide
+theorem falseImpliesTrue : False → True := by decide
+
+def second (xs : List α) (ok : xs.length > 1) : α := xs[1]
+
+-- decide (decidable proposition) - one where an algorithm can compute true/false
+#eval second ["a", "c", "b"] (by decide)
+
+#eval second [1] (by decide)
+
+def thirdOption (xs : List α) : Option α := xs[2]?
+
+#eval thirdOption [11, 22, 33]
+
+#eval thirdOption (α := Nat) []

@@ -1,0 +1,18 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs": "f54e3af53b0a5dcd.o",
+ "log":
+ [{"message":
+   ".> /Users/isavita/.elan/toolchains/leanprover--lean4---v4.34.1/bin/clang -c -o /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/ir/Main.c.o.export /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/ir/Main.c -I /Users/isavita/.elan/toolchains/leanprover--lean4---v4.34.1/include -fstack-clash-protection -ffp-contract=off -fdata-sections -ffunction-sections -fvisibility=hidden -Wno-unused-command-line-argument --sysroot /Users/isavita/.elan/toolchains/leanprover--lean4---v4.34.1 -nostdinc -isystem /Users/isavita/.elan/toolchains/leanprover--lean4---v4.34.1/include/clang -O3 -DNDEBUG -DLEAN_EXPORTING",
+   "level": "trace"}],
+ "inputs":
+ [["Main:c",
+   [["/Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/ir/Main.c",
+     "3b867e1237552a08"],
+    ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+     "e9f3658beb070375"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["traceArgs: #[-O3, -DNDEBUG, -DLEAN_EXPORTING]", "c1efb66122fb2b9a"],
+  ["arm64-apple-darwin24.6.0", "77c16133d139df5a"]],
+ "depHash": "70331bba2cf12123"}

@@ -1,0 +1,35 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["08a5d61a3d98e8cc.olean"],
+  "m": false,
+  "i": "3743e594b467ad2e.ilean",
+  "c": "3b867e1237552a08.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/lib/lean /Users/isavita/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/Main.lean -o /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/lib/lean/Main.olean -i /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/lib/lean/Main.ilean -c /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/ir/Main.c --setup /Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/.lake/build/ir/Main.setup.json --json",
+   "level": "trace"},
+  {"message": "Main.lean:82:0: This is short message!", "level": "info"},
+  {"message": "Main.lean:83:0: The file read was successful", "level": "info"},
+  {"message":
+   "Main.lean:84:0: File not found: does_not_exist.txt\nHandle correctly file that doesn't exist",
+   "level": "info"}],
+ "inputs":
+ [["deps",
+   [["feline/feline:extraDep", [["@feline:extraDep", "00000000000006bb"]]],
+    ["imports", "00000000000006bb"]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.1, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+   "e9f3658beb070375"],
+  ["/Users/isavita/git/learn-you-some-lean/HelloWorldChapter/feline_simp/Main.lean",
+   "b5545a2138b3dba2"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Main", "f2a1fd945cf30c62"],
+  ["Package.id?: (some feline)", "a46815efdbfb211f"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "5142ae1eb41d04d0"}

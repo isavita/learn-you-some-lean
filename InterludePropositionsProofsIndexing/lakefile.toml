@@ -1,0 +1,10 @@
+name = "InterludePropositionsProofsIndexing"
+version = "0.1.0"
+defaultTargets = ["interludepropositionsproofsindexing"]
+
+[[lean_lib]]
+name = "InterludePropositionsProofsIndexing"
+
+[[lean_exe]]
+name = "interludepropositionsproofsindexing"
+root = "Main"
