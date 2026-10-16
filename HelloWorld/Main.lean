@@ -546,3 +546,59 @@ def thirdOption (xs : List α) : Option α := xs[2]?
 #eval thirdOption [11, 22, 33]
 
 #eval thirdOption (α := Nat) []
+
+inductive Pos : Type where
+  | one : Pos
+  | succ : Pos -> Pos
+
+def three : Pos := Pos.succ (Pos.succ Pos.one)
+
+-- def seven : Pos := 7
+
+-- def six : Pos := three + three
+
+class Plus (α : Type) where
+  plus : α -> α -> α
+
+instance : Plus Nat where
+  plus := Nat.add
+
+#eval Plus.plus 3 2
+
+open Plus (plus)
+
+#eval plus 6 4
+
+def Pos.plus : Pos -> Pos -> Pos
+    | one, k => Pos.succ k
+    | Pos.succ n, k => Pos.succ (n.plus k)
+
+instance : Plus Pos where
+  plus := Pos.plus
+
+instance : Add Pos where
+  add := Pos.plus
+
+def six : Pos := plus three three
+
+def Pos.toNat : Pos -> Nat
+  | Pos.one => 1
+  | Pos.succ n => n.toNat + 1
+
+#eval six
+
+#eval six.toNat
+
+instance : ToString Pos where
+  toString x := toString x.toNat
+
+#eval s!"There are {six}"
+
+def Pos.mul : Pos -> Pos -> Pos
+  | Pos.one, k => k
+  | Pos.succ n, k => (n.mul k) + k
+
+instance : Mul Pos where
+  mul := Pos.mul
+
+#eval[six * three,  three * three * three * Pos.succ Pos.one]
