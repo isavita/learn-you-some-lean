@@ -1,0 +1,10 @@
+name = "PositiveNumbers"
+version = "0.1.0"
+defaultTargets = ["positivenumbers"]
+
+[[lean_lib]]
+name = "PositiveNumbers"
+
+[[lean_exe]]
+name = "positivenumbers"
+root = "Main"

@@ -601,4 +601,10 @@ def Pos.mul : Pos -> Pos -> Pos
 instance : Mul Pos where
   mul := Pos.mul
 
-#eval[six * three,  three * three * three * Pos.succ Pos.one]
+#eval [six * three,
+three * three * three * Pos.succ Pos.one]
+
+instance : One Pos where
+  one := Pos.one
+
+#eval (1 : Pos) * ((1 : Pos) + 1)
