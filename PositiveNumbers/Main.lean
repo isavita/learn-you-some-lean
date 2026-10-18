@@ -134,3 +134,47 @@ instance : ToString Even where
 #eval eight
 #eval eight + two
 #eval two * eight
+
+-- 3.1.6.3. HTTP Requests
+-- An HTTP request begins with an identification of a HTTP method,
+-- such as GET or POST, along with a URI and an HTTP version.
+-- Define an inductive type that represents an interesting subset of the HTTP methods,
+-- and a structure that represents HTTP responses.
+-- Responses should have a ToString instance that makes it possible to debug them.
+-- Use a type class to associate different IO actions with each HTTP method,
+-- and write a test harness as an IO action that calls each method and prints the result.
+inductive Method : Type where
+  | get (uri : String) : Method
+  | put (uri : String) (body : String) : Method
+  | post (uri : String) (body: String) : Method
+  | delete (uri : String) : Method
+
+structure Response where
+  status : Nat
+  body : String
+
+instance : ToString Response where
+  toString r := s!"[{r.status}] {r.body}"
+
+class Handler (α : Type) where
+  handle : α -> IO Response
+
+instance : Handler Method where
+  handle
+    | .get uri => do
+      IO.println s!"** server log: GET {uri}"
+      pure (Response.mk 200 s!"contents of {uri}")
+    | .put uri body => do
+      IO.println s!"** server log: PUT {uri} ({body.length} bytes)"
+      pure (Response.mk 200 s!"stored {body.length} bytes at {uri}")
+    | .post uri body => do
+      IO.println s!"** server log: POST {uri} ({body.length} bytes)"
+      pure (Response.mk 201 s!"created resource at {uri}")
+    | .delete uri => do
+      IO.println s!"** server log: DELETE {uri}"
+      pure (Response.mk 200 s!"deleted {uri}")
+
+#eval Handler.handle (Method.get "/index.html")
+#eval Handler.handle (Method.put "/users/1" "{\"name\":\"Grace\"}")
+#eval Handler.handle (Method.post "/users" "{\"name\":\"John\"}")
+#eval Handler.handle (Method.delete "/users/1")
