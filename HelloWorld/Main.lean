@@ -607,4 +607,30 @@ three * three * three * Pos.succ Pos.one]
 instance : One Pos where
   one := Pos.one
 
+instance : OfNat Pos 1 := ⟨Pos.succ Pos.one⟩
+
+instance [OfNat Pos n] : OfNat Pos (n + 1) where
+  ofNat := Pos.succ ((OfNat.ofNat n) + 1)
+
+
 #eval (1 : Pos) * ((1 : Pos) + 1)
+
+#check (IO.println)
+#check @IO.println
+#check IO.println
+
+def List.sumOfContents {α : Type} [Add α] [Zero α] : List α -> α
+  | [] => 0
+  | x :: xs => x + xs.sumOfContents
+
+def fiveNats : List Nat := [4, 5, 21, 11, 8]
+
+#eval fiveNats.sumOfContents
+#eval fiveNats.sum
+
+def fourPos : List Pos := [1, 2, 3, 4]
+
+-- #eval fourPos.sumOfContents
+
+instance [Add α] : Add (PPoint α) where
+  add p1 p2 := { x := p1.x + p2.x, y := p1.y + p2.y }
