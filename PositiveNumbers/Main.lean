@@ -178,3 +178,27 @@ instance : Handler Method where
 #eval Handler.handle (Method.put "/users/1" "{\"name\":\"Grace\"}")
 #eval Handler.handle (Method.post "/users" "{\"name\":\"John\"}")
 #eval Handler.handle (Method.delete "/users/1")
+
+-- 3.2.4.1. Even Number Literals🔗
+-- Write an instance of OfNat for the even number datatype
+--  from the previous section's exercises that uses recursive instance search.
+instance : OfNat Even 2 where
+  ofNat := Even.two
+
+instance [OfNat Even n] : OfNat Even (n + 2) where
+  ofNat := Even.succ (OfNat.ofNat n)
+
+#eval (10 : Even).toNat
+
+-- 3.2.4.2. Recursive Instance Search Depth🔗
+-- There is a limit to how many times the Lean compiler will attempt a recursive instance search.
+-- This places a limit on the size of even number literals defined in the previous exercise.
+-- Experimentally determine what the limit is.
+
+-- It looks to be 128 checks = 127 checks + base instance check
+#eval (256 : Even).toNat
+-- this is not working
+-- #eval (258 : Even).toNat
+
+set_option synthInstance.maxSize 1024 in
+#eval (258 : Even).toNat
