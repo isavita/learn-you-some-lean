@@ -701,3 +701,66 @@ instance [Mul α] : HMul α (PPoint α) (PPoint α) where
 #eval ({x := 5.6, y := 7.1 } : PPoint Float) * 4.0
 
 #eval 5.1 * start
+
+
+def northenTrees :=
+  #["sloe", "birch", "elm", "oak"]
+
+#eval northenTrees[2]
+#eval northenTrees.size
+
+structure NonEmptyList (α : Type) : Type where
+  head : α
+  tail : List α
+
+def idahoSpiders : NonEmptyList String := {
+  head := "Banded Garden Spider",
+  tail := [
+    "Long-legged Sac Spider",
+    "Wolf Spider",
+    "Hobo Spider",
+    "Cat-faced Spider"
+  ]
+}
+
+def NonEmptyList.get? : NonEmptyList α -> Nat -> Option α
+  | xs, 0 => some xs.head
+  | {head := _, tail := []}, _ + 1 => none
+  | {head := _, tail := h :: t}, n + 1 => get? { head := h, tail := t} n
+
+#eval idahoSpiders.get? 8
+
+def NonEmptyList.gget? : NonEmptyList α -> Nat -> Option α
+  | xs, 0 => some xs.head
+  | xs, n + 1 => xs.tail[n]?
+
+abbrev NonEmptyList.inBounds (xs : NonEmptyList α) (i : Nat) : Prop :=
+  i <= xs.tail.length
+
+theorem atLeastThreeSpiders : idahoSpiders.inBounds 2 := by decide
+
+theorem notSixSpiders : ¬idahoSpiders.inBounds 5 := by decide
+
+def NonEmptyList.get (xs : NonEmptyList α) (i : Nat) (ok : xs.inBounds i) : α :=
+  match i with
+    | 0 => xs.head
+    | n + 1 => xs.tail[n]
+
+#check (idahoSpiders.get 3)
+
+instance : GetElem (NonEmptyList α) Nat α NonEmptyList.inBounds where
+  getElem := NonEmptyList.get
+
+#eval idahoSpiders.head
+
+#eval idahoSpiders[3]
+
+instance : GetElem (List α) Pos α
+    (fun list n => list.length > n.toNat) where
+  getElem (xs : List α) (i : Pos) ok := xs[i.toNat]
+
+instance : GetElem (PPoint α) Bool α (fun _ _ => True) where
+  getElem (p : PPoint α) (i : Bool) _ :=
+    if i then p.y else p.x
+
+#eval start[false]
