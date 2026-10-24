@@ -607,11 +607,14 @@ three * three * three * Pos.succ Pos.one]
 instance : One Pos where
   one := Pos.one
 
-instance : OfNat Pos 1 := ⟨Pos.succ Pos.one⟩
+instance : OfNat Pos 1 := ⟨Pos.one⟩
+
+#guard (1 : Pos).toNat = 1
 
 instance [OfNat Pos n] : OfNat Pos (n + 1) where
-  ofNat := Pos.succ ((OfNat.ofNat n) + 1)
+  ofNat := Pos.succ (OfNat.ofNat n)
 
+#guard (2 : Pos).toNat = 2
 
 #eval (1 : Pos) * ((1 : Pos) + 1)
 
@@ -634,3 +637,67 @@ def fourPos : List Pos := [1, 2, 3, 4]
 
 instance [Add α] : Add (PPoint α) where
   add p1 p2 := { x := p1.x + p2.x, y := p1.y + p2.y }
+
+def addPosNat : Pos -> Nat -> Pos
+  | p, 0 => p
+  | p, n + 1 => Pos.succ (addPosNat p n)
+
+def addNatPos : Nat -> Pos -> Pos
+  | 0, p => p
+  | n + 1, p => Pos.succ (addNatPos n p)
+
+#eval addPosNat Pos.one 41
+#eval addNatPos 40 (Pos.succ Pos.one)
+
+instance : HAdd Pos Nat Pos where
+  hAdd := addPosNat
+
+instance : HAdd Nat Pos Pos where
+  hAdd := addNatPos
+
+
+#eval Pos.one + 41
+#eval 40 + (Pos.succ Pos.one)
+
+
+class HPlus (α : Type) (β : Type) (γ : outParam Type) where
+  hPlus : α -> β -> γ
+
+instance : HPlus Nat Pos Pos where
+  hPlus := addNatPos
+
+instance : HPlus Pos Nat Pos where
+  hPlus := addPosNat
+
+#eval HPlus.hPlus (3 : Pos) 4
+
+@[default_instance]
+instance [Add α] : HPlus α α α where
+  hPlus := Add.add
+
+#check HPlus.hPlus 3 4
+
+#check HPlus.hPlus 3
+
+
+-- def mulPointFloat : PPoint Float -> Float -> PPoint Float
+--   | p, k => {x := p.x * k, y := p.y * k}
+
+-- def mulFloatPoint : Float -> PPoint Float -> PPoint Float
+--   | k, p => {x := p.x * k, y := p.y * k}
+
+-- instance : HMul (PPoint Float) Float (PPoint Float) where
+--   hMul := mulPointFloat
+
+-- instance : HMul Float (PPoint Float) (PPoint Float) where
+--   hMul := mulFloatPoint
+
+instance [Mul α] : HMul (PPoint α) α (PPoint α) where
+  hMul p c := { x := p.x * c, y := p.y * c}
+
+instance [Mul α] : HMul α (PPoint α) (PPoint α) where
+  hMul c p := { x := p.x * c, y := p.y * c}
+
+#eval ({x := 5.6, y := 7.1 } : PPoint Float) * 4.0
+
+#eval 5.1 * start
